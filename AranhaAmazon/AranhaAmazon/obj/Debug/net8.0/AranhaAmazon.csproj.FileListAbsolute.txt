@@ -1,0 +1,15 @@
+C:\Users\usuario\source\repos\AranhaAmazon\Ara-aAmazon\AranhaAmazon\AranhaAmazon\bin\Debug\net8.0\AranhaAmazon.exe
+C:\Users\usuario\source\repos\AranhaAmazon\Ara-aAmazon\AranhaAmazon\AranhaAmazon\bin\Debug\net8.0\AranhaAmazon.deps.json
+C:\Users\usuario\source\repos\AranhaAmazon\Ara-aAmazon\AranhaAmazon\AranhaAmazon\bin\Debug\net8.0\AranhaAmazon.runtimeconfig.json
+C:\Users\usuario\source\repos\AranhaAmazon\Ara-aAmazon\AranhaAmazon\AranhaAmazon\bin\Debug\net8.0\AranhaAmazon.dll
+C:\Users\usuario\source\repos\AranhaAmazon\Ara-aAmazon\AranhaAmazon\AranhaAmazon\bin\Debug\net8.0\AranhaAmazon.pdb
+C:\Users\usuario\source\repos\AranhaAmazon\Ara-aAmazon\AranhaAmazon\AranhaAmazon\obj\Debug\net8.0\AranhaAmazon.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\usuario\source\repos\AranhaAmazon\Ara-aAmazon\AranhaAmazon\AranhaAmazon\obj\Debug\net8.0\AranhaAmazon.AssemblyInfoInputs.cache
+C:\Users\usuario\source\repos\AranhaAmazon\Ara-aAmazon\AranhaAmazon\AranhaAmazon\obj\Debug\net8.0\AranhaAmazon.AssemblyInfo.cs
+C:\Users\usuario\source\repos\AranhaAmazon\Ara-aAmazon\AranhaAmazon\AranhaAmazon\obj\Debug\net8.0\AranhaAmazon.csproj.CoreCompileInputs.cache
+C:\Users\usuario\source\repos\AranhaAmazon\Ara-aAmazon\AranhaAmazon\AranhaAmazon\obj\Debug\net8.0\AranhaAmazon.sourcelink.json
+C:\Users\usuario\source\repos\AranhaAmazon\Ara-aAmazon\AranhaAmazon\AranhaAmazon\obj\Debug\net8.0\AranhaAmazon.dll
+C:\Users\usuario\source\repos\AranhaAmazon\Ara-aAmazon\AranhaAmazon\AranhaAmazon\obj\Debug\net8.0\refint\AranhaAmazon.dll
+C:\Users\usuario\source\repos\AranhaAmazon\Ara-aAmazon\AranhaAmazon\AranhaAmazon\obj\Debug\net8.0\AranhaAmazon.pdb
+C:\Users\usuario\source\repos\AranhaAmazon\Ara-aAmazon\AranhaAmazon\AranhaAmazon\obj\Debug\net8.0\AranhaAmazon.genruntimeconfig.cache
+C:\Users\usuario\source\repos\AranhaAmazon\Ara-aAmazon\AranhaAmazon\AranhaAmazon\obj\Debug\net8.0\ref\AranhaAmazon.dll
