@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "dgSpecHash": "x3whMZcLv1GWCIwzUSw9HONqYHQarAj/Rkdx4auYvBGjBaWLuAzAtPuPVBjNsAwaDN4+nxrvfLKlbIo2YFMj0w==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\usuario\\source\\repos\\AranhaAmazon\\AranhaAmazon\\AranhaAmazon.csproj",
+  "expectedPackageFiles": [],
+  "logs": [
+    {
+      "code": "NU1803",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Está ejecutando la operación \"restore\" con un origen \"HTTP\", \"http://srvdocker:8001/v3/index.json\". El acceso que no sea HTTPS se quitará en una versión futura. Considere la posibilidad de migrar a un origen \"HTTPS\"."
+    }
+  ]
+}
