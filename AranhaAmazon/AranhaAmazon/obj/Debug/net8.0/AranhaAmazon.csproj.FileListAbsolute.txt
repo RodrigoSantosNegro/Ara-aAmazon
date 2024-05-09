@@ -13,3 +13,13 @@ C:\Users\usuario\source\repos\AranhaAmazon\Ara-aAmazon\AranhaAmazon\AranhaAmazon
 C:\Users\usuario\source\repos\AranhaAmazon\Ara-aAmazon\AranhaAmazon\AranhaAmazon\obj\Debug\net8.0\AranhaAmazon.pdb
 C:\Users\usuario\source\repos\AranhaAmazon\Ara-aAmazon\AranhaAmazon\AranhaAmazon\obj\Debug\net8.0\AranhaAmazon.genruntimeconfig.cache
 C:\Users\usuario\source\repos\AranhaAmazon\Ara-aAmazon\AranhaAmazon\AranhaAmazon\obj\Debug\net8.0\ref\AranhaAmazon.dll
+C:\Users\usuario\source\repos\AranhaAmazon\Ara-aAmazon\AranhaAmazon\AranhaAmazon\bin\Debug\net8.0\selenium-manager\linux\selenium-manager
+C:\Users\usuario\source\repos\AranhaAmazon\Ara-aAmazon\AranhaAmazon\AranhaAmazon\bin\Debug\net8.0\selenium-manager\macos\selenium-manager
+C:\Users\usuario\source\repos\AranhaAmazon\Ara-aAmazon\AranhaAmazon\AranhaAmazon\bin\Debug\net8.0\selenium-manager\windows\selenium-manager.exe
+C:\Users\usuario\source\repos\AranhaAmazon\Ara-aAmazon\AranhaAmazon\AranhaAmazon\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\usuario\source\repos\AranhaAmazon\Ara-aAmazon\AranhaAmazon\AranhaAmazon\bin\Debug\net8.0\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\usuario\source\repos\AranhaAmazon\Ara-aAmazon\AranhaAmazon\AranhaAmazon\bin\Debug\net8.0\Newtonsoft.Json.dll
+C:\Users\usuario\source\repos\AranhaAmazon\Ara-aAmazon\AranhaAmazon\AranhaAmazon\bin\Debug\net8.0\Npgsql.dll
+C:\Users\usuario\source\repos\AranhaAmazon\Ara-aAmazon\AranhaAmazon\AranhaAmazon\bin\Debug\net8.0\WebDriver.dll
+C:\Users\usuario\source\repos\AranhaAmazon\Ara-aAmazon\AranhaAmazon\AranhaAmazon\obj\Debug\net8.0\AranhaAmazon.csproj.AssemblyReference.cache
+C:\Users\usuario\source\repos\AranhaAmazon\Ara-aAmazon\AranhaAmazon\AranhaAmazon\obj\Debug\net8.0\AranhaAm.D796A25B.Up2Date

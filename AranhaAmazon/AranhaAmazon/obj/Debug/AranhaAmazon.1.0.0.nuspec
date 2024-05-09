@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>AranhaAmazon</id>
+    <version>1.0.0</version>
+    <authors>AranhaAmazon</authors>
+    <description>Package Description</description>
+    <repository type="git" commit="86c5d6debb93b2542666b92ccb4d9d0d41888d8f" />
+    <dependencies>
+      <group targetFramework="net8.0">
+        <dependency id="Npgsql" version="8.0.2" exclude="Build,Analyzers" />
+        <dependency id="Selenium.WebDriver" version="4.20.0" exclude="Build,Analyzers" />
+        <dependency id="Selenium.WebDriver.ChromeDriver" version="124.0.6367.9100" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="C:\Users\usuario\source\repos\AranhaAmazon\Ara-aAmazon\AranhaAmazon\AranhaAmazon\bin\Debug\net8.0\AranhaAmazon.runtimeconfig.json" target="lib\net8.0\AranhaAmazon.runtimeconfig.json" />
+    <file src="C:\Users\usuario\source\repos\AranhaAmazon\Ara-aAmazon\AranhaAmazon\AranhaAmazon\bin\Debug\net8.0\AranhaAmazon.dll" target="lib\net8.0\AranhaAmazon.dll" />
+  </files>
+</package>
