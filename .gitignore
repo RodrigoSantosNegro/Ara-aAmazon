@@ -1,2 +1,49 @@
 
 /AranhaAmazon/AranhaAmazon/obj/Debug
+
+### IntelliJ IDEA ###
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+### Eclipse ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+### VS Code ###
+.vscode/
+
+### Mac OS ###
+.DS_Store
+
+### BATCH ###
+generated/
+.class
+commit_sha.temp
+tests_output.temp
+
+### Other ###
+cinemaPrefs.xml
+cinemaPrefs.json
+example.xml
+example.json
+hours.json
+radios.json
+cards.json
+#cinemaPrefs.txt
+#wrestlers.json
