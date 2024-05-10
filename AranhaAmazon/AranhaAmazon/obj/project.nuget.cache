@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "vT9lu3VRzLgpQcAceNsCAHqDxAn+9/kMigblpZUA4rAXaQXcNMvDiqo8CYdFloqfyxvERzr6dQUpruBgdi+2yA==",
+  "dgSpecHash": "vdFcH7j1HqqSDLc3F+v+P2zdRBpKdfjxosS2pmBFrYNIXpGEn5YaiEABuG1s5PEp2xrlS5IsRqWV5ZgR8hG/Tw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\usuario\\source\\repos\\AranhaAmazon\\Ara-aAmazon\\AranhaAmazon\\AranhaAmazon\\AranhaAmazon.csproj",
+  "projectFilePath": "C:\\Users\\usuario\\source\\repos\\AranhaAmazon\\Ara-aAmazon\\Ara-aAmazon\\AranhaAmazon\\AranhaAmazon\\AranhaAmazon.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\usuario\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\8.0.0\\microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512",
     "C:\\Users\\usuario\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\8.0.0\\microsoft.extensions.logging.abstractions.8.0.0.nupkg.sha512",
@@ -17,6 +17,16 @@
       "level": "Warning",
       "warningLevel": 1,
       "message": "Está ejecutando la operación \"restore\" con un origen \"HTTP\", \"http://srvdocker:8001/v3/index.json\". El acceso que no sea HTTPS se quitará en una versión futura. Considere la posibilidad de migrar a un origen \"HTTPS\"."
+    },
+    {
+      "code": "NU1903",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "El paquete \"Npgsql\" 8.0.2 tiene una vulnerabilidad de gravedad alta conocida, https://github.com/advisories/GHSA-x9vc-6hfv-hg8c",
+      "libraryId": "Npgsql",
+      "targetGraphs": [
+        "net8.0"
+      ]
     }
   ]
 }
