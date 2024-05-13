@@ -115,17 +115,15 @@ partial class Program
                     Console.WriteLine(fechaInicio);
                     Console.WriteLine(fechaFin);
 
-                    Console.WriteLine("\n***********  Se cierra araña.");
-                    driver.Close();
-                    driver.Quit();
+                    Console.WriteLine("\n***********************  TERMINAMOS PAÑALES.");
                     break;
                 }
                 catch (Exception)
                 {
                     //Seguimos navegando
                 }
-
-                Console.WriteLine($"\n-- SIGUIENTE PÁGINA ({pag = ++pag}) --\n");
+                pag = pag++;
+                Console.WriteLine($"\n-- SIGUIENTE PÁGINA ({pag}) --\n");
                 IWebElement sig = driver.FindElement(By.CssSelector(".s-pagination-item.s-pagination-next.s-pagination-button.s-pagination-separator"));
                 sig.Click();
                 Thread.Sleep(4000);
@@ -136,9 +134,123 @@ partial class Program
             }
 
         } while (!salir);
+
+
+        var textBox2 = driver.FindElement(By.Id("twotabsearchtextbox"));
+        var submitButton2 = driver.FindElement(By.Id("nav-search-submit-button"));
+        //Suponemos que el id de la barra de búsqueda y de la lupita son las mismas que las del inicio. Si no funcionara pues a buscar la ruta en el inspector de código.
+        Thread.Sleep(3000);
+        textBox2.SendKeys("teclado gaming mecanico");
+        Thread.Sleep(500);
+        submitButton2.Click();
+        Thread.Sleep(2000);
+        //Ahora vamos a buscar teclados gaming mecánicos (pasamos de buscar unos 170 artículos a tener una araña que mira 2k productos)
+        salir = false;
+        do
+        {
+            //Seleccionamos todos los poductos que no estén patrocinados Y TENGAN EL BOTON DE AÑADIR A LA CESTA.
+            List<IWebElement> products = new List<IWebElement>(driver.FindElements(By.CssSelector(".puis-card-container.s-card-container:not(:has(.puis-sponsored-label-text)):has(.a-button-inner > .a-icon.a-icon-cart)")));
+            Console.WriteLine(products.Count() + " TECLADOS");
+            Console.WriteLine("---------------------------");
+            Thread.Sleep(1000);
+
+            //Añadimos los datos que quiera guardar de cada producto.
+            List<Producto> listProducts = new List<Producto>();//Lista por si quiero hacer cositas después.
+            try
+            {
+                int pag = 1;
+                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(0.2);
+                foreach (IWebElement producto in products)
+                {
+
+                    Producto p = new Producto();
+                    try
+                    {
+                        p = lecturaProductoTecladoMecanico(producto);
+                        //Insertamos en postgresql
+                        bool insertado = Postgresql.InsertarArticulo(p);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Error: " + ex.Message);
+                    }
+
+                    listProducts.Add(p);
+
+                }
+                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(1);
+                try
+                {
+                    //Si existe este elemento es que no hay más páginas.
+                    driver.FindElement(By.CssSelector(".s-pagination-item.s-pagination-next.s-pagination-disabled"));
+                    salir = true;
+                    var fechaFin = DateTime.Now;
+
+                    Console.WriteLine("--------------");
+                    Console.WriteLine(fechaInicio);
+                    Console.WriteLine(fechaFin);
+                    Console.WriteLine("--------------");
+
+                    break;
+                }
+                catch (Exception)
+                {
+                    //Seguimos navegando
+                }
+                pag = pag++;
+                Console.WriteLine($"\n-- SIGUIENTE PÁGINA ({pag}) --\n");
+                IWebElement sig = driver.FindElement(By.CssSelector(".s-pagination-item.s-pagination-next.s-pagination-button.s-pagination-separator"));
+                sig.Click();
+                Thread.Sleep(4000);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Ha habido un error: " + ex);
+            }
+
+        } while (!salir);
+
+
+
+        Console.WriteLine("\n***********  Se cierra araña.");
+        driver.Close();
+        driver.Quit();
     }
 
 
+
+
+    private static Producto lecturaProductoTecladoMecanico(IWebElement producto)
+    {
+        Producto p = new Producto();
+        Console.Write("Obteniendo nombre -- ");
+        p.nombre = Postgresql.EsTexto(producto.FindElement(By.CssSelector(".a-size-base-plus.a-color-base.a-text-normal")).Text, 500);
+        Console.WriteLine("Done.");
+        Console.Write("Obteniendo precio -- ");
+        try
+        {
+            p.precio = Postgresql.EsNumero(double.Parse(producto.FindElement(By.CssSelector(".a-price-whole")).Text + "," + producto.FindElements(By.CssSelector(".a-price-fraction"))[0].Text));
+        }
+        catch
+        {
+            p.precio = -1;
+        }
+
+        Console.WriteLine("Done.");
+        Console.Write("Obteniendo  URL -- ");
+        p.url = Postgresql.EsTexto(producto.FindElement(By.CssSelector(".a-link-normal.s-underline-text.s-underline-link-text.s-link-style.a-text-normal")).GetAttribute("href"), 10000);
+        Console.WriteLine("Done.");
+        Console.Write("Obteniendo fecha_lectura (no debería de tardar nada xd) -- ");
+        p.fecha_lectura = DateTime.Now.ToString();
+        Console.WriteLine("Done.");
+        Console.Write("Obteniendo oferta -- ");
+        p.oferta = producto.FindElements(By.CssSelector(".a-badge-label-inner.a-text-ellipsis .a-badge-text")).Count > 0;
+        Console.WriteLine("Done.");
+        p.categoria = "Teclado gaming mecanico";
+
+        Console.WriteLine("\n=====================================================\n");
+        return p;
+    }
 
     private static Producto lecturaProductoPanhal(IWebElement producto)
     {
@@ -188,7 +300,7 @@ partial class Program
         //{
         //    Console.WriteLine("No existe pvpr para este producto");
         //}
-        //Console.WriteLine("\n\n=====================================================\n\n");
+        Console.WriteLine("\n=====================================================\n");
         return p;
     }
 }
