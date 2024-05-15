@@ -62,153 +62,182 @@ partial class Program
         var rejectCookiesButton = driver.FindElement(By.Id("sp-cc-rejectall-link"));
         Thread.Sleep(500);
         rejectCookiesButton.Click();
-        //Buscamos un atributo del front de amazon que nos pueda indicar con exactitud el elemento que buscamos, en este caso la barra de búsqueda y la lupa de navegación.
-        var textBox = driver.FindElement(By.Id("twotabsearchtextbox"));
-        var submitButton = driver.FindElement(By.Id("nav-search-submit-button"));
-        //Escribimos el texto en el textbox (barra de búsqueda) y navegamos.
-        Thread.Sleep(1000);
-        textBox.SendKeys("pañales dodot talla 4");
-        Thread.Sleep(500);
-        submitButton.Click();
-        Thread.Sleep(2000);
 
-        bool salir = false;
-        do
+        string panhales = "pañales dodot talla 4";
+        string tecladosGM = "teclado gaming mecanico";
+        string[] categorias = { panhales, tecladosGM };
+
+        //AÑADIR TABLA CATEGORÍAS FEITAS A DÍA DE HOXE PARA NON REPETIR ARAÑA.
+
+        foreach (var cat in categorias)
         {
-            //Seleccionamos todos los poductos que no estén patrocinados.
-            List<IWebElement> products = new List<IWebElement>(driver.FindElements(By.CssSelector(".puis-card-container.s-card-container:not(:has(.puis-sponsored-label-text))")));
-            Console.WriteLine(products.Count() + " PAÑALES");
-            Thread.Sleep(5000);
-
-            //Añadimos los datos que quiera guardar de cada producto.
-            List<Producto> listProducts = new List<Producto>();//Lista por si quiero hacer cositas después.
-            try
-            {
-                int pag = 1;
-                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(0.2);
-                foreach (IWebElement producto in products)
-                {
-
-                    Producto p = new Producto();
-                    try
-                    {
-                        p = lecturaProductoPanhal(producto);
-                        //Insertamos en postgresql
-                        bool insertado = Postgresql.InsertarArticulo(p);
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine("Error: " + ex.Message);
-                    }
-
-                    listProducts.Add(p);
-
-                }
-                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(1);
-                try
-                {
-                    //Si existe este elemento es que no hay más páginas.
-                    driver.FindElement(By.CssSelector(".s-pagination-item.s-pagination-next.s-pagination-disabled"));
-                    salir = true;
-                    var fechaFin = DateTime.Now;
-
-                    Console.WriteLine(fechaInicio);
-                    Console.WriteLine(fechaFin);
-
-                    Console.WriteLine("\n***********************  TERMINAMOS PAÑALES.");
-                    break;
-                }
-                catch (Exception)
-                {
-                    //Seguimos navegando
-                }
-                pag = pag++;
-                Console.WriteLine($"\n-- SIGUIENTE PÁGINA ({pag}) --\n");
-                IWebElement sig = driver.FindElement(By.CssSelector(".s-pagination-item.s-pagination-next.s-pagination-button.s-pagination-separator"));
-                sig.Click();
-                Thread.Sleep(4000);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Ha habido un error: " + ex);
-            }
-
-        } while (!salir);
-
-
-        var textBox2 = driver.FindElement(By.Id("twotabsearchtextbox"));
-        var submitButton2 = driver.FindElement(By.Id("nav-search-submit-button"));
-        //Suponemos que el id de la barra de búsqueda y de la lupita son las mismas que las del inicio. Si no funcionara pues a buscar la ruta en el inspector de código.
-        Thread.Sleep(3000);
-        textBox2.SendKeys("teclado gaming mecanico");
-        Thread.Sleep(500);
-        submitButton2.Click();
-        Thread.Sleep(2000);
-        //Ahora vamos a buscar teclados gaming mecánicos (pasamos de buscar unos 170 artículos a tener una araña que mira 2k productos)
-        salir = false;
-        do
-        {
-            //Seleccionamos todos los poductos que no estén patrocinados Y TENGAN EL BOTON DE AÑADIR A LA CESTA.
-            List<IWebElement> products = new List<IWebElement>(driver.FindElements(By.CssSelector(".puis-card-container.s-card-container:not(:has(.puis-sponsored-label-text)):has(.a-button-inner > .a-icon.a-icon-cart)")));
-            Console.WriteLine(products.Count() + " TECLADOS");
-            Console.WriteLine("---------------------------");
+            //Buscamos un atributo del front de amazon que nos pueda indicar con exactitud el elemento que buscamos, en este caso la barra de búsqueda y la lupa de navegación.
+            var textBox = driver.FindElement(By.Id("twotabsearchtextbox"));
+            var submitButton = driver.FindElement(By.Id("nav-search-submit-button"));
+            //Escribimos el texto en el textbox (barra de búsqueda) y navegamos.
             Thread.Sleep(1000);
+            textBox.Clear();
+            textBox.SendKeys(cat);
+            Thread.Sleep(500);
+            submitButton.Click();
+            Thread.Sleep(2000);
 
-            //Añadimos los datos que quiera guardar de cada producto.
-            List<Producto> listProducts = new List<Producto>();//Lista por si quiero hacer cositas después.
-            try
+            int pag = 1;
+            bool salir = false;
+            do
             {
-                int pag = 1;
-                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(0.2);
-                foreach (IWebElement producto in products)
-                {
+                //Seleccionamos todos los poductos que no estén patrocinados.
+                List<IWebElement> products = new List<IWebElement>(driver.FindElements(By.CssSelector(".puis-card-container.s-card-container:not(:has(.puis-sponsored-label-text))")));
+                Console.WriteLine(products.Count() + " ARTÍCULOS (debería de haber 48 si no es la última página)");
+                Thread.Sleep(5000);
 
-                    Producto p = new Producto();
-                    try
-                    {
-                        p = lecturaProductoTecladoMecanico(producto);
-                        //Insertamos en postgresql
-                        bool insertado = Postgresql.InsertarArticulo(p);
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine("Error: " + ex.Message);
-                    }
-
-                    listProducts.Add(p);
-
-                }
-                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(1);
+                //Añadimos los datos que quiera guardar de cada producto.
+                List<Producto> listProducts = new List<Producto>();//Lista por si quiero hacer cositas después.
                 try
                 {
-                    //Si existe este elemento es que no hay más páginas.
-                    driver.FindElement(By.CssSelector(".s-pagination-item.s-pagination-next.s-pagination-disabled"));
-                    salir = true;
-                    var fechaFin = DateTime.Now;
+                    //Cambiamos el tiempo que sigue buscando un elemento que no ve de primeras para aumentar la velocidad de lectura de productos.
+                    driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(0.2);
+                    foreach (IWebElement producto in products)
+                    {
 
-                    Console.WriteLine("--------------");
-                    Console.WriteLine(fechaInicio);
-                    Console.WriteLine(fechaFin);
-                    Console.WriteLine("--------------");
+                        Producto p = new Producto();
+                        try
+                        {
+                            if(cat == panhales)
+                            {
+                                p = lecturaProductoPanhal(producto);
+                            }
+                            else if(cat == tecladosGM)
+                            {
+                                p = lecturaProductoTecladoMecanico(producto);
+                            }
+                            else
+                            {
+                                Console.WriteLine("No existe la categoría");
+                            }
+                            //Insertamos en postgresql
+                            //bool insertado = Postgresql.InsertarArticulo(p);
+                            Console.WriteLine("\n");
+                            Console.WriteLine("Insertado");
+                            Console.WriteLine("\n=====================================================\n");
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Error: " + ex.Message);
+                        }
 
-                    break;
+                        listProducts.Add(p);
+
+                    }
+                    driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(1);
+                    try
+                    {
+                        //Si existe este elemento es que no hay más páginas.
+                        driver.FindElement(By.CssSelector(".s-pagination-item.s-pagination-next.s-pagination-disabled"));
+                        var fechaFin = DateTime.Now;
+
+                        Console.WriteLine(fechaInicio);
+                        Console.WriteLine(fechaFin);
+
+                        Console.WriteLine("\n***********************  TERMINAMOS PAÑALES.");
+                        break;
+                    }
+                    catch (Exception)
+                    {
+                        //Seguimos navegando
+                    }
+                    Console.WriteLine($"\n-- SIGUIENTE PÁGINA ({++pag}) --\n");
+                    IWebElement sig = driver.FindElement(By.CssSelector(".s-pagination-item.s-pagination-next.s-pagination-button.s-pagination-separator"));
+                    sig.Click();
+                    Thread.Sleep(4000);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    //Seguimos navegando
+                    Console.WriteLine("Ha habido un error: " + ex);
                 }
-                pag = pag++;
-                Console.WriteLine($"\n-- SIGUIENTE PÁGINA ({pag}) --\n");
-                IWebElement sig = driver.FindElement(By.CssSelector(".s-pagination-item.s-pagination-next.s-pagination-button.s-pagination-separator"));
-                sig.Click();
-                Thread.Sleep(4000);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Ha habido un error: " + ex);
-            }
 
-        } while (!salir);
+            } while (!salir);
+
+
+        }
+
+
+
+
+
+        //var textBox2 = driver.FindElement(By.Id("twotabsearchtextbox"));
+        //var submitButton2 = driver.FindElement(By.Id("nav-search-submit-button"));
+        ////Suponemos que el id de la barra de búsqueda y de la lupita son las mismas que las del inicio. Si no funcionara pues a buscar la ruta en el inspector de código.
+        //Thread.Sleep(3000);
+        //textBox2.SendKeys("teclado gaming mecanico");
+        //Thread.Sleep(500);
+        //submitButton2.Click();
+        //Thread.Sleep(2000);
+        ////Ahora vamos a buscar teclados gaming mecánicos (pasamos de buscar unos 170 artículos a tener una araña que mira 2k productos)
+        //do
+        //{
+        //    //Seleccionamos todos los poductos que no estén patrocinados Y TENGAN EL BOTON DE AÑADIR A LA CESTA.
+        //    List<IWebElement> products = new List<IWebElement>(driver.FindElements(By.CssSelector(".puis-card-container.s-card-container:not(:has(.puis-sponsored-label-text)):has(.a-button-inner > .a-icon.a-icon-cart)")));
+        //    Console.WriteLine(products.Count() + " TECLADOS");
+        //    Console.WriteLine("---------------------------");
+        //    Thread.Sleep(1000);
+
+        //    //Añadimos los datos que quiera guardar de cada producto.
+        //    List<Producto> listProducts = new List<Producto>();//Lista por si quiero hacer cositas después.
+        //    try
+        //    {
+        //        int pag = 1;
+        //        driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(0.2);
+        //        foreach (IWebElement producto in products)
+        //        {
+
+        //            Producto p = new Producto();
+        //            try
+        //            {
+        //                p = lecturaProductoTecladoMecanico(producto);
+        //                //Insertamos en postgresql
+        //                bool insertado = Postgresql.InsertarArticulo(p);
+        //                Console.WriteLine("\n=====================================================\n");
+        //            }
+        //            catch (Exception ex)
+        //            {
+        //                Console.WriteLine("Error: " + ex.Message);
+        //            }
+
+        //            listProducts.Add(p);
+
+        //        }
+        //        driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(1);
+        //        try
+        //        {
+        //            //Si existe este elemento es que no hay más páginas.
+        //            driver.FindElement(By.CssSelector(".s-pagination-item.s-pagination-next.s-pagination-disabled"));
+        //            salir = true;
+        //            var fechaFin = DateTime.Now;
+
+        //            Console.WriteLine("--------------");
+        //            Console.WriteLine(fechaInicio);
+        //            Console.WriteLine(fechaFin);
+        //            Console.WriteLine("--------------");
+
+        //            break;
+        //        }
+        //        catch (Exception)
+        //        {
+        //            //Seguimos navegando
+        //        }
+        //        pag = pag++;
+        //        Console.WriteLine($"\n-- SIGUIENTE PÁGINA ({pag}) --\n");
+        //        IWebElement sig = driver.FindElement(By.CssSelector(".s-pagination-item.s-pagination-next.s-pagination-button.s-pagination-separator"));
+        //        sig.Click();
+        //        Thread.Sleep(4000);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine("Ha habido un error: " + ex);
+        //    }
+
+        //} while (!salir);
 
 
 
@@ -248,7 +277,6 @@ partial class Program
         Console.WriteLine("Done.");
         p.categoria = "Teclado gaming mecanico";
 
-        Console.WriteLine("\n=====================================================\n");
         return p;
     }
 
@@ -300,7 +328,6 @@ partial class Program
         //{
         //    Console.WriteLine("No existe pvpr para este producto");
         //}
-        Console.WriteLine("\n=====================================================\n");
         return p;
     }
 }
