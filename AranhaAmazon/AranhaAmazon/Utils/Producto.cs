@@ -14,5 +14,6 @@ namespace AranhaAmazon.Utils
         public string fecha_lectura { get; set; }
         public bool oferta { get; set; }
         public string categoria { get; set; }
+        public int id_categoria { get; set; }
     }
 }
