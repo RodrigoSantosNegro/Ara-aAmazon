@@ -62,15 +62,6 @@ partial class Program
         var rejectCookiesButton = driver.FindElement(By.Id("sp-cc-rejectall-link"));
         Thread.Sleep(500);
         rejectCookiesButton.Click();
-        //Buscamos un atributo del front de amazon que nos pueda indicar con exactitud el elemento que buscamos, en este caso la barra de búsqueda y la lupa de navegación.
-        var textBox = driver.FindElement(By.Id("twotabsearchtextbox"));
-        var submitButton = driver.FindElement(By.Id("nav-search-submit-button"));
-        //Escribimos el texto en el textbox (barra de búsqueda) y navegamos.
-        Thread.Sleep(1000);
-        textBox.SendKeys("pañales dodot talla 4");
-        Thread.Sleep(500);
-        submitButton.Click();
-        Thread.Sleep(2000);
 
         //Seleccionamos de la BD las categorías que no han sido checkeadas a día de hoy
         List<string> categorias = Postgresql.CategoriasRevisadasHoy();
@@ -78,10 +69,16 @@ partial class Program
         //Buscamos artículos por categoría
         foreach (var cat in categorias)
         {
-            //Seleccionamos todos los poductos que no estén patrocinados.
-            List<IWebElement> products = new List<IWebElement>(driver.FindElements(By.CssSelector(".puis-card-container.s-card-container:not(:has(.puis-sponsored-label-text))")));
-            Console.WriteLine(products.Count() + " PAÑALES");
-            Thread.Sleep(5000);
+            //Buscamos un atributo del front de amazon que nos pueda indicar con exactitud el elemento que buscamos, en este caso la barra de búsqueda y la lupa de navegación.
+            var textBox = driver.FindElement(By.Id("twotabsearchtextbox"));
+            var submitButton = driver.FindElement(By.Id("nav-search-submit-button"));
+            //Escribimos el texto en el textbox (barra de búsqueda) y navegamos.
+            Thread.Sleep(1000);
+            textBox.Clear();
+            textBox.SendKeys(cat);
+            Thread.Sleep(500);
+            submitButton.Click();
+            Thread.Sleep(2000);
 
             int pag = 1;
             bool salir = false;
@@ -98,6 +95,10 @@ partial class Program
                 List<Producto> listProducts = new List<Producto>();//Lista por si quiero hacer cositas después.
                 try
                 {
+                    //Cambiamos el tiempo que sigue buscando un elemento que no ve de primeras para aumentar la velocidad de lectura de productos.
+                    driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(0.2);
+                    foreach (IWebElement producto in products)
+                    {
 
                         Producto p = new Producto();
                         try
@@ -141,44 +142,21 @@ partial class Program
                         Console.WriteLine("\n***********************  TERMINAMOS LECTURA.");
                         break;
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
-                        Console.WriteLine("Error: " + ex.Message);
+                        //Seguimos navegando
                     }
-
-                    listProducts.Add(p);
-
+                    Console.WriteLine($"\n-- SIGUIENTE PÁGINA ({++pag}) --\n");
+                    IWebElement sig = driver.FindElement(By.CssSelector(".s-pagination-item.s-pagination-next.s-pagination-button.s-pagination-separator"));
+                    sig.Click();
+                    Thread.Sleep(4000);
                 }
-                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(1);
-                try
+                catch (Exception ex)
                 {
-                    //Si existe este elemento es que no hay más páginas.
-                    driver.FindElement(By.CssSelector(".s-pagination-item.s-pagination-next.s-pagination-disabled"));
-                    salir = true;
-                    var fechaFin = DateTime.Now;
-
-                    Console.WriteLine(fechaInicio);
-                    Console.WriteLine(fechaFin);
-
-                    Console.WriteLine("\n***********  Se cierra araña.");
-                    driver.Close();
-                    driver.Quit();
-                    break;
-                }
-                catch (Exception)
-                {
-                    //Seguimos navegando
+                    Console.WriteLine("Ha habido un error: " + ex);
                 }
 
-                Console.WriteLine($"\n-- SIGUIENTE PÁGINA ({pag = ++pag}) --\n");
-                IWebElement sig = driver.FindElement(By.CssSelector(".s-pagination-item.s-pagination-next.s-pagination-button.s-pagination-separator"));
-                sig.Click();
-                Thread.Sleep(4000);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Ha habido un error: " + ex);
-            }
+            } while (!salir);
 
 
         }
@@ -241,7 +219,6 @@ partial class Program
         //{
         //    Console.WriteLine("No existe pvpr para este producto");
         //}
-        //Console.WriteLine("\n\n=====================================================\n\n");
         return p;
     }
 }
