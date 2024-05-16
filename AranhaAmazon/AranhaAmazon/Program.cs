@@ -72,29 +72,74 @@ partial class Program
         submitButton.Click();
         Thread.Sleep(2000);
 
-        bool salir = false;
-        do
+        //Seleccionamos de la BD las categorías que no han sido checkeadas a día de hoy
+        List<string> categorias = Postgresql.CategoriasRevisadasHoy();
+
+        //Buscamos artículos por categoría
+        foreach (var cat in categorias)
         {
             //Seleccionamos todos los poductos que no estén patrocinados.
             List<IWebElement> products = new List<IWebElement>(driver.FindElements(By.CssSelector(".puis-card-container.s-card-container:not(:has(.puis-sponsored-label-text))")));
             Console.WriteLine(products.Count() + " PAÑALES");
             Thread.Sleep(5000);
 
-            //Añadimos los datos que quiera guardar de cada producto.
-            List<Producto> listProducts = new List<Producto>();//Lista por si quiero hacer cositas después.
-            try
+            int pag = 1;
+            bool salir = false;
+            int real = 0;
+            do
             {
-                int pag = 1;
-                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(0.2);
-                foreach (IWebElement producto in products)
+                //Seleccionamos todos los poductos que no estén patrocinados.
+                List<IWebElement> products = new List<IWebElement>(driver.FindElements(By.CssSelector(".puis-card-container.s-card-container:not(:has(.puis-sponsored-label-text))")));
+                real += products.Count();
+                Console.WriteLine(products.Count() + " ARTÍCULOS (debería de haber 48 si no es la última página)");
+                Thread.Sleep(5000);
+
+                //Añadimos los datos que quiera guardar de cada producto.
+                List<Producto> listProducts = new List<Producto>();//Lista por si quiero hacer cositas después.
+                try
                 {
 
-                    Producto p = new Producto();
+                        Producto p = new Producto();
+                        try
+                        {
+                            //Leemos un producto y le pasamos la categoría
+                            p = lecturaProducto(producto, cat);
+                            
+                            //Insertamos en postgresql
+                            bool insertado = Postgresql.InsertarArticulo(p);
+                            Console.WriteLine("\n");
+                            Console.WriteLine($"Insertado - {insertado}");
+                            Console.WriteLine("\n=====================================================\n");
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Error: " + ex.Message);
+                        }
+
+                        listProducts.Add(p);
+
+                    }
+                    driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(1);
                     try
                     {
-                        p = lecturaProductoPanhal(producto);
-                        //Insertamos en postgresql
-                        bool insertado = Postgresql.InsertarArticulo(p);
+                        //Si existe este elemento es que no hay más páginas.
+                        driver.FindElement(By.CssSelector(".s-pagination-item.s-pagination-next.s-pagination-disabled"));
+                        var fechaFin = DateTime.Now;
+
+                        Console.WriteLine(fechaInicio);
+                        Console.WriteLine(fechaFin);
+
+                        //AÑADIMOS LA CATEGORÍA A LA LISTA DE YA CHECKEADAS HOY
+                        int id_categoria = Postgresql.GetIdCategoria(cat);
+                        string strEstimado = Postgresql.EsTexto(driver.FindElement(By.CssSelector(".sg-col-14-of-20 > .sg-col-inner > .a-section.a-spacing-small.a-spacing-top-small")).Text, 255);
+                        string[] s1 = strEstimado.Split(' ');
+                        string[] s2 = s1[0].Split('-');
+                        int estimado = int.Parse(s2[1]);
+                        bool insertado = Postgresql.InsertarCategoriaLeida(id_categoria, cat, fechaInicio, fechaFin, estimado, real);
+                        Console.WriteLine($"No hay más páginas. Añadiendo categoría a checkeadas hoy - {insertado}");
+
+                        Console.WriteLine("\n***********************  TERMINAMOS LECTURA.");
+                        break;
                     }
                     catch (Exception ex)
                     {
@@ -135,12 +180,19 @@ partial class Program
                 Console.WriteLine("Ha habido un error: " + ex);
             }
 
-        } while (!salir);
+
+        }
+
+        Console.WriteLine("\n***********  Se cierra araña.");
+        driver.Close();
+        driver.Quit();
     }
 
 
 
-    private static Producto lecturaProductoPanhal(IWebElement producto)
+
+    //<<<MÉTODOS>>>
+    private static Producto lecturaProducto(IWebElement producto, string categoria)
     {
         Producto p = new Producto();
         Console.Write("Obteniendo nombre -- ");
@@ -179,7 +231,8 @@ partial class Program
         Console.Write("Obteniendo oferta -- ");
         p.oferta = producto.FindElements(By.CssSelector(".a-badge-label-inner.a-text-ellipsis .a-badge-text")).Count > 0;
         Console.WriteLine("Done.");
-        p.categoria = "Pañales dodot talla 4";
+        p.categoria = categoria;
+        p.id_categoria = Postgresql.GetIdCategoria(categoria);
         //try
         //{
         //    p.pvpr = float.Parse(producto.FindElement(By.CssSelector("div:nth-child(1) > a > div > span.a-price.a-text-price > span.a-offscreen")).Text);

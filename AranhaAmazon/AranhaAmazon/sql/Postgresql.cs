@@ -1,10 +1,7 @@
 ﻿using AranhaAmazon.Utils;
 using Npgsql;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Data;
+
 
 namespace AranhaAmazon.sql
 {
@@ -42,15 +39,93 @@ namespace AranhaAmazon.sql
 
         }
 
+        public static DataTable RellenaDt(string varSql)
+        {
+            int contador = 0;
+
+            while (contador < 3)
+            {
+                try
+                {
+                    using (NpgsqlConnection conn = new NpgsqlConnection(cs))
+                    {
+                        conn.Open();
+                        NpgsqlCommand cmd = new NpgsqlCommand(varSql, conn);
+                        NpgsqlDataAdapter da = new NpgsqlDataAdapter(cmd);
+                        DataTable dt = new DataTable();
+                        da.Fill(dt);
+                        return dt;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("**********\n" + ex.Message + "\n**********");
+                    contador++;
+                }
+            }
+            return null;
+        }
+
         public static bool InsertarArticulo(Producto producto)
         {
 
-            EjecutarSQL(@$" INSERT INTO public.producto(
-	                            nombre, precio, url, fecha_lectura, oferta, categoria)
-	                            VALUES ('{producto.nombre}', {producto.precio.ToString().Replace(",", ".")}, '{producto.url}', '{producto.fecha_lectura}', {producto.oferta}, '{producto.categoria}');");
+            EjecutarSQL(@$" INSERT INTO producto(
+	                            nombre, precio, url, fecha_lectura, oferta, categoria, id_categoria)
+	                            VALUES ('{producto.nombre}', {producto.precio.ToString().Replace(",", ".")}, '{producto.url}', '{producto.fecha_lectura}', {producto.oferta}, '{producto.categoria}', {producto.id_categoria});");
 
             return true;
 
+        }
+        
+        internal static bool InsertarCategoriaLeida(int id_categoria, string cat, DateTime fechaInicio, DateTime fechaFin, int estimado, int real)
+        {
+            EjecutarSQL($@"INSERT INTO categorias_leidas_hoy(
+	                        id_categoria, fecha_inicio, fecha_fin, estimado, real)
+	                        VALUES ({id_categoria}, '{fechaInicio}', '{fechaFin}', {estimado}, {real});");
+
+            return true;
+        }
+
+        public static List<string> CategoriasRevisadasHoy()
+        {
+            List<string> resp = new List<string>();
+            string sql = $@"SELECT c.nombre
+                            FROM categoria c
+                            WHERE NOT EXISTS (
+                                SELECT 1
+                                FROM categorias_leidas_hoy clh
+                                WHERE clh.id_categoria = c.id
+                                AND clh.fecha_inicio::date = CURRENT_DATE
+                            )";
+
+            DataTable dtCats = RellenaDt(sql);
+            foreach(DataRow fila in dtCats.Rows)
+            {
+                resp.Add(EsTexto(fila["nombre"], 255));
+            }
+
+            return resp;
+        }
+
+        internal static int GetIdCategoria(string categoria)
+        {
+            try
+            {
+                string sql = $@"SELECT id
+                                FROM categoria
+                                WHERE nombre = '{categoria}'";
+                DataTable dtCats = RellenaDt(sql);
+                foreach (DataRow fila in dtCats.Rows)
+                {
+                    return int.Parse(fila["id"].ToString());
+                }
+                throw new Exception("No se encontró la categoría especificada.");
+            }
+            catch(Exception ex)
+            {
+                throw new Exception("Error GetIdCategoria: " + ex.Message);
+            }
+            
         }
 
         public static string EsTexto(Object texto, int caracteres)
