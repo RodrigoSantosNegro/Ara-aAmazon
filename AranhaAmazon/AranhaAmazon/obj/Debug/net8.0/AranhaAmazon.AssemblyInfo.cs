@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AranhaAmazon")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+50364f1eb050fa39413561c6fcd8262159e4da87")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+000ddb4bf545bcba958742cf90cd7a5bff43fa20")]
 [assembly: System.Reflection.AssemblyProductAttribute("AranhaAmazon")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AranhaAmazon")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

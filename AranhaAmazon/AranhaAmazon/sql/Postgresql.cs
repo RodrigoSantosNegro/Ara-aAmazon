@@ -73,6 +73,10 @@ namespace AranhaAmazon.sql
 	                            nombre, precio, url, fecha_lectura, oferta, categoria, id_categoria)
 	                            VALUES ('{producto.nombre}', {producto.precio.ToString().Replace(",", ".")}, '{producto.url}', '{producto.fecha_lectura}', {producto.oferta}, '{producto.categoria}', {producto.id_categoria});");
 
+            Console.WriteLine("\n");
+            Console.WriteLine($"Insertado");
+            Console.WriteLine("\n=====================================================\n");
+
             return true;
 
         }

@@ -69,6 +69,10 @@ partial class Program
         //Buscamos artículos por categoría
         foreach (var cat in categorias)
         {
+            Console.WriteLine($"---- {cat.ToUpper()} ----");
+
+            DateTime fechaInicioCategoria = DateTime.Now;
+
             //Buscamos un atributo del front de amazon que nos pueda indicar con exactitud el elemento que buscamos, en este caso la barra de búsqueda y la lupa de navegación.
             var textBox = driver.FindElement(By.Id("twotabsearchtextbox"));
             var submitButton = driver.FindElement(By.Id("nav-search-submit-button"));
@@ -89,7 +93,7 @@ partial class Program
                 List<IWebElement> products = new List<IWebElement>(driver.FindElements(By.CssSelector(".puis-card-container.s-card-container:not(:has(.puis-sponsored-label-text))")));
                 real += products.Count();
                 Console.WriteLine(products.Count() + " ARTÍCULOS (debería de haber 48 si no es la última página)");
-                Thread.Sleep(5000);
+                Thread.Sleep(1500);
 
                 //Añadimos los datos que quiera guardar de cada producto.
                 List<Producto> listProducts = new List<Producto>();//Lista por si quiero hacer cositas después.
@@ -105,12 +109,9 @@ partial class Program
                         {
                             //Leemos un producto y le pasamos la categoría
                             p = lecturaProducto(producto, cat);
-                            
+
                             //Insertamos en postgresql
-                            bool insertado = Postgresql.InsertarArticulo(p);
-                            Console.WriteLine("\n");
-                            Console.WriteLine($"Insertado - {insertado}");
-                            Console.WriteLine("\n=====================================================\n");
+                            Postgresql.InsertarArticulo(p);
                         }
                         catch (Exception ex)
                         {
@@ -136,8 +137,8 @@ partial class Program
                         string[] s1 = strEstimado.Split(' ');
                         string[] s2 = s1[0].Split('-');
                         int estimado = int.Parse(s2[1]);
-                        bool insertado = Postgresql.InsertarCategoriaLeida(id_categoria, cat, fechaInicio, fechaFin, estimado, real);
-                        Console.WriteLine($"No hay más páginas. Añadiendo categoría a checkeadas hoy - {insertado}");
+                        bool insertado = Postgresql.InsertarCategoriaLeida(id_categoria, cat, fechaInicioCategoria, fechaFin, estimado, real);
+                        Console.WriteLine($"No hay más páginas. Añadiendo categoría '{cat}' a checkeadas hoy - {insertado}");
 
                         Console.WriteLine("\n***********************  TERMINAMOS LECTURA.");
                         break;
