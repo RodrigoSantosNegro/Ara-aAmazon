@@ -18,10 +18,9 @@
 ## 🔗 Enlaces Rápidos
 
 > - [📍 Descripción General](#-descripción-general)
-> - [📦 Funcionalidades](#-funcionalidades)
 > - [📂 Estructura del Repositorio](#-estructura-del-repositorio)
 > - [🧩 Módulos](#-módulos)
-> - [🚀 Comenzando](#-comenzando)
+> - [🚀 Para poder empezar](#-comenzando)
 >   - [⚙️ Instalación](#️-instalación)
 >   - [🤖 Ejecutando Ara-aAmazon](#-ejecutando-ara-aamazon)
 > - [🛠 Hoja de Ruta del Proyecto](#-hoja-de-ruta-del-proyecto)
@@ -38,7 +37,7 @@
 
 ---
 
-## 📂 Repository Structure
+## 📂 Estructura del Repositorio
 
 ```sh
 └── Ara-aAmazon/
@@ -120,7 +119,7 @@ git clone https://github.com/RodrigoSantosNegro/Ara-aAmazon
 cd Ara-aAmazon
 ```
 
-### 🤖 Ejecutar Ara-aAmazon
+### 🤖 Ejecutando Ara-aAmazon
 
 Usa el botón de ejecutar en VS Code o utiliza el siguiente comando Ara-aAmazon:
 
@@ -130,13 +129,13 @@ dotnet run
 
 ---
 
-## 📄 License
+## 📄 Licencia
 
 Este proyecto no tiene licencia jiji
 
 ---
 
-## 👏 Créditos
+## 👏 Agradecimientos
 
 - Don Gepeto, más conocido como ChatGPT.
 - Mentores de Aracnosoft.
