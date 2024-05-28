@@ -107,13 +107,23 @@ Asegúrate de que tienes instalado lo siguiente:
 
 ### ⚙️ Instalación
 
-1. Clona el repositorio de Ara-aAmazon:
+1. Crea una base de datos en PostgreSQL que tenga las siguientes tablas:
+
+```sh
+**Columna**            ---  **Atributos**
+
+producto               ---  id, nombre, precio, url, fecha_lectura, oferta, categoria, id_categoria
+categoria              ---  id, nombre, activa, frecuencia
+categorias_leidas_hoy  ---  id_categoria, f echa_inicio, fecha_fin, estimado, real
+```
+
+2. Clona el repositorio de Ara-aAmazon:
 
 ```sh
 git clone https://github.com/RodrigoSantosNegro/Ara-aAmazon
 ```
 
-2. Cambia al directorio del proyecto:
+3. Cambia al directorio del proyecto:
 
 ```sh
 cd Ara-aAmazon
