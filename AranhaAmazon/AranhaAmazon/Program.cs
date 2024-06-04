@@ -69,7 +69,7 @@ partial class Program
         //Buscamos artículos por categoría
         foreach (var cat in categorias)
         {
-            Console.WriteLine($"---- {cat.ToUpper()} ----");
+            Console.WriteLine($"\n\n---- {cat.ToUpper()} ----");
 
             DateTime fechaInicioCategoria = DateTime.Now;
 
@@ -92,8 +92,8 @@ partial class Program
                 //Seleccionamos todos los poductos que no estén patrocinados.
                 List<IWebElement> products = new List<IWebElement>(driver.FindElements(By.CssSelector(".puis-card-container.s-card-container:not(:has(.puis-sponsored-label-text))")));
                 real += products.Count();
-                Console.WriteLine(products.Count() + " ARTÍCULOS (debería de haber 48 si no es la última página)");
-                Thread.Sleep(1500);
+                Console.WriteLine(products.Count() + " ARTÍCULOS ENCONTRADOS (esperados 48 si no es la última página)");
+                Thread.Sleep(750);
 
                 //Añadimos los datos que quiera guardar de cada producto.
                 List<Producto> listProducts = new List<Producto>();//Lista por si quiero hacer cositas después.
@@ -108,7 +108,8 @@ partial class Program
                         try
                         {
                             //Leemos un producto y le pasamos la categoría
-                            p = lecturaProducto(producto, cat);
+                            p = LecturaProducto(producto, cat);
+                            listProducts.Add(p);
 
                             //Insertamos en postgresql
                             Postgresql.InsertarArticulo(p);
@@ -118,7 +119,6 @@ partial class Program
                             Console.WriteLine("Error: " + ex.Message);
                         }
 
-                        listProducts.Add(p);
 
                     }
                     driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(1);
@@ -171,7 +171,7 @@ partial class Program
 
 
     //<<<MÉTODOS>>>
-    private static Producto lecturaProducto(IWebElement producto, string categoria)
+    private static Producto LecturaProducto(IWebElement producto, string categoria)
     {
         Producto p = new Producto();
         Console.Write("Obteniendo nombre -- ");
