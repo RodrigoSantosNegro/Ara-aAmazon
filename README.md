@@ -5,7 +5,12 @@
     <h1 align="center">ARA-AAMAZON</h1>
 </p>
 <p align="center">
-    <em>Haz que tu cartera pese más con el seguimiento aracnoide de mi script</em>
+    <em>:construction: Proyecto en construcción :construction:</em>
+</p>
+<p align="center">
+    <em>
+      Ara-aAmazon es una herramienta de web scraping diseñada para extraer información de productos de Amazon. Utiliza CSharp y varias bibliotecas para automatizar la recopilación de datos de productos, como precios, nombres y descripciones. Esta herramienta es útil para monitorear precios, análisis de competencia y recolección de datos para investigación de mercado.
+    </em>
 </p>
 <p align="center">
 <img src="https://img.shields.io/github/last-commit/RodrigoSantosNegro/Ara-aAmazon?style=flat&logo=git&logoColor=white&color=0080ff" alt="last-commit">
@@ -17,7 +22,6 @@
 
 ## 🔗 Enlaces Rápidos
 
-> - [📍 Descripción General](#-descripción-general)
 > - [📂 Estructura del Repositorio](#-estructura-del-repositorio)
 > - [🧩 Módulos](#-módulos)
 > - [🚀 Para poder empezar](#-comenzando)
@@ -26,14 +30,6 @@
 > - [🛠 Hoja de Ruta del Proyecto](#-hoja-de-ruta-del-proyecto)
 > - [📄 Licencia](#-licencia)
 > - [👏 Agradecimientos](#-agradecimientos)
-
----
-
-## 📍 Descripción General
-
-<p>
-<em>Script que almacena en PostgreSQL el nombre, precio, url, categoria y fecha de lectura (por ahora) de un producto de Amazön.</em>
-</p>
 
 ---
 
@@ -98,6 +94,8 @@
 
 ***Requisitos***
 
+Este script funciona sólo para sistemas operativos Windows.
+
 Asegúrate de que tienes instalado lo siguiente:
 
 * **Visual Studio 2022**
@@ -107,14 +105,15 @@ Asegúrate de que tienes instalado lo siguiente:
 
 ### ⚙️ Instalación
 
-1. Crea una base de datos en PostgreSQL que tenga las siguientes tablas:
+1. Instala PostreSQL 13 y ejecútalo cuando finalice.
+2. Contáctame para pedir un backup o crea una base de datos que tenga las siguientes tablas:
 
 ```sh
 **Columna**            ---  **Atributos**
 
-producto               ---  id, nombre, precio, url, fecha_lectura, oferta, categoria, id_categoria
-categoria              ---  id, nombre, activa, frecuencia
-categorias_leidas_hoy  ---  id_categoria, f echa_inicio, fecha_fin, estimado, real
+producto               ---  id (PK), nombre, precio, url, fecha_lectura, oferta, categoria, id_categoria (FK)
+categoria              ---  id (PK), nombre, activa, frecuencia
+categorias_leidas_hoy  ---  id_categoria (FK), fecha_inicio, fecha_fin, estimado, real
 ```
 
 2. Clona el repositorio de Ara-aAmazon:
@@ -123,7 +122,7 @@ categorias_leidas_hoy  ---  id_categoria, f echa_inicio, fecha_fin, estimado, re
 git clone https://github.com/RodrigoSantosNegro/Ara-aAmazon
 ```
 
-3. Cambia al directorio del proyecto:
+3. Cambia al directorio del proyecto y abre el proyecto:
 
 ```sh
 cd Ara-aAmazon
@@ -131,12 +130,13 @@ cd Ara-aAmazon
 
 ### 🤖 Ejecutando Ara-aAmazon
 
-Usa el botón de ejecutar en VS Code o utiliza el siguiente comando Ara-aAmazon:
+Usa el botón de ejecutar en VS Code o utiliza el siguiente comando:
 
 ```sh
 dotnet run
 ```
 
+***¡Ya estás realizando tu seguimiento!***
 ---
 
 ## 📄 Licencia
@@ -150,7 +150,5 @@ Este proyecto no tiene licencia jiji
 - Don Gepeto, más conocido como ChatGPT.
 - Mentores de Aracnosoft.
 - Mi intelecto.
-
-[**Return**](#-quick-links)
 
 ---
