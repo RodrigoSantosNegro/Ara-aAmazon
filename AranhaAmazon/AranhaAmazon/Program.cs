@@ -194,32 +194,11 @@ partial class Program
         Console.Write("Obteniendo fecha_lectura (no debería de tardar nada xd) -- ");
         p.fecha_lectura = DateTime.Now.ToString();
         Console.WriteLine("Done.");
-        //string v = "";
-        //p.valoracion = -1;
-        //try
-        //{
-        //    v = producto.FindElement(By.CssSelector("div.s-desktop-width-max.s-desktop-content.s-opposite-dir.s-wide-grid-style.sg-row > div.sg-col-20-of-24.s-matching-dir.sg-col-16-of-20.sg-col.sg-col-8-of-12.sg-col-12-of-16 > div > span.rush-component.s-latency-cf-section > div.s-main-slot.s-result-list.s-search-results.sg-row > div:nth-child(11) > div > div > span > div > div > div.a-section.a-spacing-small.puis-padding-left-small.puis-padding-right-small > div:nth-child(2) > div.a-row.a-size-small > span:nth-child(1) > span > a > i.a-icon.a-icon-star-small.a-star-small-5.aok-align-bottom > span")).Text;
-        //    p.valoracion = float.Parse(v.Split(' ')[0]);
-        //}
-        //catch (Exception)
-        //{
-
-        //}        
-
-        //IWebElement datosPrecio = producto.FindElement(By.CssSelector("div[data-cy='title-recipe']"));
         Console.Write("Obteniendo oferta -- ");
         p.oferta = producto.FindElements(By.CssSelector(".a-badge-label-inner.a-text-ellipsis .a-badge-text")).Count > 0;
         Console.WriteLine("Done.");
         p.categoria = categoria;
         p.id_categoria = Postgresql.GetIdCategoria(categoria);
-        //try
-        //{
-        //    p.pvpr = float.Parse(producto.FindElement(By.CssSelector("div:nth-child(1) > a > div > span.a-price.a-text-price > span.a-offscreen")).Text);
-        //}
-        //catch (Exception)
-        //{
-        //    Console.WriteLine("No existe pvpr para este producto");
-        //}
         return p;
     }
 }
