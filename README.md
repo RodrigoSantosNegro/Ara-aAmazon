@@ -141,7 +141,7 @@ dotnet run
 
 ## 📄 Licencia
 
-Este proyecto no tiene licencia jiji
+Este proyecto no tiene licencia
 
 ---
 
